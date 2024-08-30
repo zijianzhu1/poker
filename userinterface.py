@@ -1,6 +1,7 @@
 import tkinter as tk
 import threading
 import socket
+from PIL import Image, ImageTk
 
 class Player_UI:
     """initialize the first part
@@ -21,13 +22,13 @@ class Player_UI:
     def window(self,interface_name):
         self.interface = tk.Tk()
         self.interface.title(interface_name)
-        self.interface.geometry('700x700')
+        self.interface.geometry('1000x700')
 
     def label(self,word,row,column):
         self.LABEL=tk.Label(self.interface,text=word)
         self.LABEL.grid(row=row,column=column)
     def login_button(self,text,row,column):
-        self.enterbutton  = tk.Button(self.interface,text=text,command = self.clear_window)#action_trigger)
+        self.enterbutton  = tk.Button(self.interface,text=text,command = self.player_interface)#action_trigger)
         self.enterbutton.grid(row=row,column=column)
     def disp(self):
         print("what")
@@ -37,6 +38,27 @@ class Player_UI:
     def clear_window(self):
         for i in self.interface.winfo_children():
             i.grid_forget()
+    def open_image(self):
+        original_image = Image.open("C:\\Users\\zijian\\Desktop\\poker_image\\player_image.png")
+        return original_image
 
+    def player_interface(self):
+        self.clear_window()
+        X_cord = [350,470,600,720,650,550,400,300,250]
+        Y_cord = [400,400,400,300,200,200,200,200,300]
+        self.player_image = ImageTk.PhotoImage(Player_UI.open_image(self).resize((40, 40)))
+        for i in range(9):
+            #image_label = tk.Label(self.interface, image=self.player_image)
+           # image_label.place(x=X_cord[i], y=Y_cord[i])
+            tk.Label(self.interface, image=self.player_image).place(x=X_cord[i], y=Y_cord[i])
+    """
+    def player_images_disp(self,number_of_player):
+        self.clear_window()
+        X_cord=[470]
+        Y_cord=[400]
+        self.player_image = ImageTk.PhotoImage(Player_UI.open_image(self).resize((30, 30)))
+       # image_label = tk.Label(self.interface, image=self.player_image)
+       # image_label.place(x=470, y=400)
+    """
     def run(self):
         self.interface.mainloop()
