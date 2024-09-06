@@ -18,9 +18,8 @@ def main():
     player_with_turn_cards, remaining_card_after_turn = turn_card(remaining_card_after_flop, player_with_flop_cards)
     player_with_river_cards, remaining_card_after_river = river_card(remaining_card_after_turn,player_with_turn_cards)
     compare_all_players(player_with_river_cards)
-
     player_board = Player_board("zijian",player_with_river_cards)
-    P_UI=Player_UI(player_board,player_with_river_cards)
+    P_UI=Player_UI(player_board,player_with_river_cards,all_cards)
     P_UI.run()
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 def card_set_up():
     card_number=["AS","2","3","4","5","6","7","8","9","10","J","Q","K","A"]
-    card_suit=["Spades","Club","Hearts","Diamonds"]
+    card_suit=["Spades","Clubs","Hearts","Diamonds"]
     card_value=[1,2,3,4,5,6,7,8,9,10,11,12,13,14]
     all_card={}
     for i in card_number:

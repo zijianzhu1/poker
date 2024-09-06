@@ -40,7 +40,7 @@ def find_type(present_cards):
 
 # bool
 def is_flush(present_cards):
-    suitdict = {'Spades': 0, 'Club': 0, 'Hearts': 0, 'Diamonds': 0}
+    suitdict = {'Spades': 0, 'Clubs': 0, 'Hearts': 0, 'Diamonds': 0}
     for card in present_cards:
         current_suit = card.card_suit
         suitdict[current_suit] = suitdict[current_suit] + 1
