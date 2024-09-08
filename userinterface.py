@@ -37,7 +37,7 @@ class Player_UI:
         self.enterbutton  = tk.Button(self.interface,text=text,command = self.player_interface)#action_trigger)
         self.enterbutton.grid(row=row,column=column)
     def disp(self):
-        print("what")
+       # print("what")
         turnlabel = tk.Label(self.interface, textvariable=self.turn)
         turnlabel.grid(row=5, column=3)
 
@@ -86,27 +86,27 @@ class Player_UI:
             card_path_name= i
             card1_path="C:\\Users\\zijian\\Desktop\\poker_image\\PNG-cards-1.3\\"+self.players_card[i][0].name+".png"
             card2_path="C:\\Users\\zijian\\Desktop\\poker_image\\PNG-cards-1.3\\"+self.players_card[i][1].name+".png"
-            print(self.players_card[i][0].name)
+         #   print(self.players_card[i][0].name)
             self.image_dict.update({card_path_name:[card1_path,card2_path]})
 
     def show_player_cards(self):
         X_cord = [915,1015,1335, 1435, 1465, 1565, 1465, 1565, 1215,1315,615,715,365,465,365,465,495,595]
         Y_cord = [672,672, 672, 672, 550, 550, 370, 370, 290,290,290,290,370,370,550,550,672,672]
         keys = list(self.players_card.keys())
-        print("here")
-        print(self.image_dict)
+       # print("here")
+       # print(self.image_dict)
         card_one_index=0
         card_two_index=1
         for i in keys:
             one_player_card=[self.players_card[i][0],self.players_card[i][1]]
-            print([self.players_card[i][0].name,self.players_card[i][1].name])
+         #  print([self.players_card[i][0].name,self.players_card[i][1].name])
             card1_path="C:\\Users\\zijian\\Desktop\\poker_image\\PNG-cards-1.3\\"+self.players_card[i][0].name+".png"
             card2_path="C:\\Users\\zijian\\Desktop\\poker_image\\PNG-cards-1.3\\"+self.players_card[i][1].name+".png"
             #card1_path=self.image_dict["player 1"][0]
            # card2_path = self.image_dict["player 1"][1]
-            print("here")
-            print(card1_path)
-            print(card2_path)
+          #  print("here")
+         #   print(card1_path)
+         #   print(card2_path)
             card1_image=Image.open(card1_path)
             card2_image=Image.open(card2_path)
             card1_image_resized=ImageTk.PhotoImage(card1_image.resize((70, 98)))

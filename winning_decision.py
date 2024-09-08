@@ -191,8 +191,8 @@ def compare_hands(present_cards_mine, present_cards_opponent) -> int:  # value -
     opponent_hand_type = find_type(present_cards_opponent)
     hand_type = compare_hand_type(my_hand_type, opponent_hand_type)
 
-    print('my hand: ', my_hand_type)
-    print('opp hand: ', opponent_hand_type)
+ #   print('my hand: ', my_hand_type)
+   # print('opp hand: ', opponent_hand_type)
 
     if hand_type == 1:  # my hand type wins
         return 1
@@ -503,7 +503,7 @@ def compare_all_players(players_card):  # {player1: [object]}
 
                 if game_results is not None:
                     points[i] += game_results
-    print(sorted(points.items(), key=lambda x: -x[1]))
+  #  print(sorted(points.items(), key=lambda x: -x[1]))
     winner = sorted(points.items(), key=lambda x: -x[1])[0]
     return winner
 

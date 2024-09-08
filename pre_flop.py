@@ -1,7 +1,7 @@
 import random
 def distribute_cards(number_of_players,all_cards):
     number_of_cards=number_of_players*2
-    card_index=random.sample(range(4,57),52)#number_of_cards)
+    card_index=random.sample(range(4,56),52)#number_of_cards)
     print(card_index)
     players_card={}
     keys = list(all_cards.keys())
@@ -15,10 +15,10 @@ def distribute_cards(number_of_players,all_cards):
         card_one_index=i*2
         card_two_index=i*2+1
         #print(card_index[card_one_index])
-       # print(keys[card_index[card_one_index]-1])
-       # print(keys[card_index[card_two_index]-1])
-        card_one=all_cards[keys[card_index[card_one_index]-1]]
-        card_two=all_cards[keys[card_index[card_two_index]-1]]
+        #print(keys[card_index[card_one_index]-1])
+        #print(keys[card_index[card_two_index]-1])
+        card_one=all_cards[keys[card_index[card_one_index]]]
+        card_two=all_cards[keys[card_index[card_two_index]]]
         players_card[player_name]=[card_one,card_two]
     remaining_card_index1=card_index[remaining_card_starting_index:52]
     remaining_card_index2=[]

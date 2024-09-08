@@ -29,7 +29,7 @@ def main():
 
     all_players = {'player 1': player1, 'player 2': player2, 'player 3': player3, 'player 4': player4, 'player 5': player5, 'player 6': player6}
 
-    print(compare_all_players(all_players)) ##{player 1: ['J','K', 'A', '2', '3']}
+   # print(compare_all_players(all_players)) ##{player 1: ['J','K', 'A', '2', '3']}
 
     player_board = Player_board("zijian",player_with_river_cards)
     P_UI=Player_UI(player_board,player_with_river_cards,all_cards)
