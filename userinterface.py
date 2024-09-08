@@ -51,9 +51,9 @@ class Player_UI:
     def player_interface(self):
        # image_keeper=[]
         self.clear_window()
-        X_cord = [350,470,600,720,650,550,400,300,250]
-        Y_cord = [400,400,400,300,200,200,200,200,300]
-        self.player_image = ImageTk.PhotoImage(Player_UI.open_image(self).resize((40, 40)))
+        X_cord = [950, 1370, 1650, 1500, 1250, 650, 400, 250, 530]
+        Y_cord = [780, 780,  550,  260,  180,  180, 260, 550, 780]
+        self.player_image = ImageTk.PhotoImage(Player_UI.open_image(self).resize((100, 100)))
         self.image_keeper.append(self.player_image)
         for i in range(9):
             #image_label = tk.Label(self.interface, image=self.player_image)
@@ -61,7 +61,8 @@ class Player_UI:
             a=tk.Label(self.interface, image=self.player_image)#.place(x=X_cord[i], y=Y_cord[i])
             a.place(x=X_cord[i], y=Y_cord[i])
 
-        #self.show_player_cards()
+        self.show_player_cards()
+        """
         card1_path = self.image_dict["player 1"][0]
         card2_path = self.image_dict["player 1"][1]
         print("here")
@@ -69,11 +70,12 @@ class Player_UI:
         print(card2_path)
         card1_image = Image.open(card1_path)
        # card2_image = Image.open(card2_path)
-        card1_image_resized = ImageTk.PhotoImage(card1_image.resize((50, 70)))
+        card1_image_resized = ImageTk.PhotoImage(card1_image.resize((70, 98)))
         #card2_image_resized = ImageTk.PhotoImage(card2_image.resize((20, 20)))
         b=tk.Label(self.interface, image=card1_image_resized)#.place(x=340, y=390)
         b.place(x=340, y=390)
         self.image_keeper.append(card1_image_resized)
+        """
        # self.image_keeper=image_keeper
     def image_reference(self):
         self.image_dict={}
@@ -88,30 +90,35 @@ class Player_UI:
             self.image_dict.update({card_path_name:[card1_path,card2_path]})
 
     def show_player_cards(self):
-        X_cord = [320, 470, 600, 720, 650, 550, 400, 300, 250]
-        Y_cord = [370, 400, 400, 300, 200, 200, 200, 200, 300]
+        X_cord = [915,1015,1335, 1435, 1465, 1565, 1465, 1565, 1215,1315,615,715,365,465,365,465,495,595]
+        Y_cord = [672,672, 672, 672, 550, 550, 370, 370, 290,290,290,290,370,370,550,550,672,672]
         keys = list(self.players_card.keys())
         print("here")
         print(self.image_dict)
-        #for i in keys:
-        #one_player_card=[self.players_card[i][0],self.players_card[i][1]]
-        #print([self.players_card[i][0].name,self.players_card[i][1].name])
-        #card1_path="C:\\Users\\zijian\\Desktop\\poker_image\\PNG-cards-1.3\\"+self.players_card[i][0].name+".png"
-       # card2_path="C:\\Users\\zijian\\Desktop\\poker_image\\PNG-cards-1.3\\"+self.players_card[i][1].name+".png"
-        card1_path=self.image_dict["player 1"][0]
-        card2_path = self.image_dict["player 1"][1]
-        print("here")
-        print(card1_path)
-        print(card2_path)
-        card1_image=Image.open(card1_path)
-        card2_image=Image.open(card2_path)
-        card1_image_resized=ImageTk.PhotoImage(card1_image.resize((40, 40)))
-        card2_image_resized=ImageTk.PhotoImage(card2_image.resize((20, 20)))
-        tk.Label(self.interface, image=card1_image_resized).place(x=320, y=370)
-       # tk.Label(self.interface, image=card2_image).place(x=X_cord[0], y=Y_cord[0])
-        #"C:\Users\zijian\Desktop\poker_image\PNG-cards-1.3\2 Clubs.png"
-
-
+        card_one_index=0
+        card_two_index=1
+        for i in keys:
+            one_player_card=[self.players_card[i][0],self.players_card[i][1]]
+            print([self.players_card[i][0].name,self.players_card[i][1].name])
+            card1_path="C:\\Users\\zijian\\Desktop\\poker_image\\PNG-cards-1.3\\"+self.players_card[i][0].name+".png"
+            card2_path="C:\\Users\\zijian\\Desktop\\poker_image\\PNG-cards-1.3\\"+self.players_card[i][1].name+".png"
+            #card1_path=self.image_dict["player 1"][0]
+           # card2_path = self.image_dict["player 1"][1]
+            print("here")
+            print(card1_path)
+            print(card2_path)
+            card1_image=Image.open(card1_path)
+            card2_image=Image.open(card2_path)
+            card1_image_resized=ImageTk.PhotoImage(card1_image.resize((70, 98)))
+            card2_image_resized=ImageTk.PhotoImage(card2_image.resize((70, 98)))
+            tk.Label(self.interface, image=card1_image_resized).place(x=X_cord[card_one_index], y=Y_cord[card_one_index])
+            tk.Label(self.interface, image=card2_image_resized).place(x=X_cord[card_two_index], y=Y_cord[card_two_index])
+            self.image_keeper.append(card1_image_resized)
+            self.image_keeper.append(card2_image_resized)
+            card_one_index+=2
+            card_two_index+=2
+            #tk.Label(self.interface, image=card2_image).place(x=X_cord[0], y=Y_cord[0])
+            #"C:\Users\zijian\Desktop\poker_image\PNG-cards-1.3\2 Clubs.png"
     """
     def player_images_disp(self,number_of_player):
         self.clear_window()
