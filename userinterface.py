@@ -20,23 +20,52 @@ class Player_UI:
         self.river_cards=river_cards
         Player_UI.image_reference(self)
         Player_UI.window(self, "Texas Hold'em")
+
        # for i in range(10):
             #Player_UI.label(self, "                   ", i, 0)
         #Player_UI.label(self, "gait information", 0, 2)
         Player_UI.login_button(self,"login",0,0)
         #self.players_card=players_card
+        #self.interface.bind("<Configure>", self.on_resize)
 
-
-
+    def create_widgets(self):
+        # Initial widget setup
+        self.label("Welcome to Texas Hold'em!", 0, 0)  # Example label
+        self.login_button("Login", 1, 0)  # Example login button
     def window(self,interface_name):
         self.interface = tk.Tk()
        # self.interface=tk.Frame(self.root)
         self.interface.title(interface_name)
         self.interface.geometry('2000x1000')
+        #self.interface.bind("<Configure>", self.on_resize)
       #  self.button_placer = tk.Frame(self.interface)
       #  self.button_placer.grid(row=0, column=0, sticky='nsew')
       #  self.interface.grid_rowconfigure(0, weight=1)
       #  self.interface.grid_columnconfigure(0, weight=1)
+    """
+    def on_resize(self, event):
+
+        window_width = self.interface.winfo_width()
+        window_height = self.interface.winfo_height()
+
+        # Resize the image proportionally
+        new_image = self.open_image().resize((int(window_width * 0.1), int(window_height * 0.1)))
+        self.tk_image = ImageTk.PhotoImage(new_image)
+
+        # Update the image label
+        self.image_label.config(image=self.tk_image)
+        self.image_label.image = self.tk_image  # Keep a reference to avoid garbage collection
+
+        # Recalculate positions based on relative percentages
+        image_x = int(window_width * self.relative_positions['image_1'][0])
+        image_y = int(window_height * self.relative_positions['image_1'][1])
+        self.image_label.place(x=image_x, y=image_y)
+
+        # Reposition the button similarly
+        button_x = int(window_width * self.relative_positions['button_1'][0])
+        button_y = int(window_height * self.relative_positions['button_1'][1])
+        self.enterbutton.place(x=button_x, y=button_y)
+    """
     def label(self,word,row,column):
         self.LABEL=tk.Label(self.interface,text=word)
         self.LABEL.grid(row=row,column=column)
@@ -75,12 +104,12 @@ class Player_UI:
         self.show_flop_card()
         self.show_turn_card()
         self.show_river_card()
-        #self.fold_button("fold",1550,830)
-        #self.check_button("check",1680,830)
-        #self.raise_button("raise",1810,830)
-        self.fold_button("fold",1000,500)
-        self.check_button("check",1100,500)
-        self.raise_button("raise",1200,500)
+        self.fold_button("fold",1550,830)
+        self.check_button("check",1680,830)
+        self.raise_button("raise",1810,830)
+        #self.fold_button("fold",1000,500)
+       # self.check_button("check",1100,500)
+       # self.raise_button("raise",1200,500)
         """
         card1_path = self.image_dict["player 1"][0]
         card2_path = self.image_dict["player 1"][1]
@@ -174,20 +203,37 @@ class Player_UI:
         tk.Label(self.interface, image=card1_image_resized).place(x=1270, y=510)
         self.image_keeper.append(card1_image_resized)
     def check_button(self,text,row,column):
-        self.check_button1 = tk.Button(self.button_placer, text=text, command=self.check_action)  # action_trigger)
-        self.check_button1.place(row=row, column=column)
+        blank_image = Image.new('RGBA', (120, 80), (255, 255, 255, 0))
+        button_image = ImageTk.PhotoImage(blank_image)
+        self.enterbutton = tk.Button(self.interface, text=text, image=button_image, compound="center",command=self.check_action)
+        self.enterbutton.place(x=row, y=column, width=120, height=80)
+        self.image_keeper.append(button_image)
+        #self.check_button1 = tk.Button(self.interface, text=text, command=self.check_action)  # action_trigger)
+        #self.check_button1.place(x=row, y=column)
     def fold_button(self,text,row,column):
-        self.fold_button1 = tk.Button(self.button_placer, text=text, command=self.fold_action)  # action_trigger)
-        self.fold_button1.place(row=row, column=column)
+        blank_image = Image.new('RGBA', (120, 80), (255, 255, 255, 0))
+        button_image = ImageTk.PhotoImage(blank_image)
+        self.enterbutton = tk.Button(self.interface, text=text, image=button_image, compound="center",command=self.fold_action)
+        self.enterbutton.place(x=row, y=column, width=120, height=80)
+        self.image_keeper.append(button_image)
+        #self.fold_button1 = tk.Button(self.interface, text=text, command=self.fold_action)  # action_trigger)
+        #self.fold_button1.place(x=row, y=column)
     def raise_button(self,text,row,column):
-        self.raise_button1 = tk.Button(self.button_placer, text=text, command=self.raise_action)  # action_trigger)
-        self.raise_button1.place(row=row, column=column)
+        blank_image = Image.new('RGBA', (120, 80), (255, 255, 255, 0))
+        button_image = ImageTk.PhotoImage(blank_image)
+        self.enterbutton = tk.Button(self.interface, text=text, image=button_image, compound="center",command=self.raise_action)
+        self.enterbutton.place(x=row, y=column, width=120, height=80)
+        self.image_keeper.append(button_image)
+        #self.raise_button1 = tk.Button(self.interface, text=text, command=self.raise_action)  # action_trigger)
+        #self.raise_button1.place(x=row, y=column)
     def check_action(self):
         print("check")
     def fold_action(self):
         print("fold")
     def raise_action(self):
         print("raise")
+
+
     """
     def player_images_disp(self,number_of_player):
         self.clear_window()
