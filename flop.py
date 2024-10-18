@@ -14,7 +14,7 @@ def flop_card(remaining_card,players_card):
   #  print(remaining_card)
   #  print(len(remaining_card))
     remaining_card_after_flop=remaining_card[3:len(remaining_card)]
-    return players_card,remaining_card_after_flop
+    return players_card,remaining_card_after_flop,flop_cards
 def turn_card(remaining_card,players_card):
     keys = list(players_card.keys())
     turn_cards = remaining_card[0]
@@ -24,11 +24,11 @@ def turn_card(remaining_card,players_card):
   #  print(remaining_card)
    # print(len(remaining_card))
     remaining_card_after_turn = remaining_card[1:len(remaining_card)]
-    return players_card, remaining_card_after_turn
+    return players_card, remaining_card_after_turn,turn_cards
 def river_card(remaining_card,players_card):
     keys = list(players_card.keys())
     river_cards = remaining_card[0]
     for i in keys:
         players_card[i].append(river_cards)
     remaining_card_after_river=remaining_card[1:len(remaining_card)]
-    return players_card,remaining_card_after_river
+    return players_card,remaining_card_after_river,river_cards

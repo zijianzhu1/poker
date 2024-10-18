@@ -10,26 +10,33 @@ class Player_UI:
     e.g. port: 8000
          ip address: 127.0.0.1
     """
-    def __init__(self, player_board, players_card,all_cards):
+    def __init__(self, player_board, players_card,all_cards,flop_cards,turn_cards,river_cards):
         self.image_keeper=[]
         self.players_card = players_card
         self.num_of_real_players=1
         self.all_cards=all_cards
+        self.flop_cards=flop_cards
+        self.turn_cards=turn_cards
+        self.river_cards=river_cards
         Player_UI.image_reference(self)
         Player_UI.window(self, "Texas Hold'em")
-        for i in range(10):
-            Player_UI.label(self, "                   ", i, 0)
+       # for i in range(10):
+            #Player_UI.label(self, "                   ", i, 0)
         #Player_UI.label(self, "gait information", 0, 2)
-        Player_UI.login_button(self,"login",i,2)
+        Player_UI.login_button(self,"login",0,0)
         #self.players_card=players_card
 
 
 
     def window(self,interface_name):
         self.interface = tk.Tk()
+       # self.interface=tk.Frame(self.root)
         self.interface.title(interface_name)
         self.interface.geometry('2000x1000')
-
+      #  self.button_placer = tk.Frame(self.interface)
+      #  self.button_placer.grid(row=0, column=0, sticky='nsew')
+      #  self.interface.grid_rowconfigure(0, weight=1)
+      #  self.interface.grid_columnconfigure(0, weight=1)
     def label(self,word,row,column):
         self.LABEL=tk.Label(self.interface,text=word)
         self.LABEL.grid(row=row,column=column)
@@ -49,8 +56,11 @@ class Player_UI:
         return original_image
 
     def player_interface(self):
-       # image_keeper=[]
         self.clear_window()
+        #self.button_placer = tk.Frame(self.interface)
+        #self.button_placer.grid(row=0, column=0, sticky='nsew')
+        #self.interface.grid_rowconfigure(0, weight=1)
+        #self.interface.grid_columnconfigure(0, weight=1)
         X_cord = [950, 1370, 1650, 1500, 1250, 650, 400, 250, 530]
         Y_cord = [780, 780,  550,  260,  180,  180, 260, 550, 780]
         self.player_image = ImageTk.PhotoImage(Player_UI.open_image(self).resize((100, 100)))
@@ -62,6 +72,15 @@ class Player_UI:
             a.place(x=X_cord[i], y=Y_cord[i])
 
         self.show_player_cards()
+        self.show_flop_card()
+        self.show_turn_card()
+        self.show_river_card()
+        #self.fold_button("fold",1550,830)
+        #self.check_button("check",1680,830)
+        #self.raise_button("raise",1810,830)
+        self.fold_button("fold",1000,500)
+        self.check_button("check",1100,500)
+        self.raise_button("raise",1200,500)
         """
         card1_path = self.image_dict["player 1"][0]
         card2_path = self.image_dict["player 1"][1]
@@ -119,6 +138,56 @@ class Player_UI:
             card_two_index+=2
             #tk.Label(self.interface, image=card2_image).place(x=X_cord[0], y=Y_cord[0])
             #"C:\Users\zijian\Desktop\poker_image\PNG-cards-1.3\2 Clubs.png"
+    def show_flop_card(self):
+
+        #self.flop_card=flop_card
+        card1_path = "C:\\Users\\zijian\\Desktop\\poker_image\\PNG-cards-1.3\\" + self.flop_cards[0].name + ".png"
+        card2_path = "C:\\Users\\zijian\\Desktop\\poker_image\\PNG-cards-1.3\\" + self.flop_cards[1].name + ".png"
+        card3_path = "C:\\Users\\zijian\\Desktop\\poker_image\\PNG-cards-1.3\\" + self.flop_cards[2].name + ".png"
+        card1_image = Image.open(card1_path)
+        card2_image = Image.open(card2_path)
+        card3_image = Image.open(card3_path)
+        card1_image_resized = ImageTk.PhotoImage(card1_image.resize((70, 98)))
+        card2_image_resized = ImageTk.PhotoImage(card2_image.resize((70, 98)))
+        card3_image_resized = ImageTk.PhotoImage(card3_image.resize((70, 98)))
+        #start here
+        tk.Label(self.interface, image=card1_image_resized).place(x=680, y=510)
+        tk.Label(self.interface, image=card2_image_resized).place(x=820, y=510)
+        tk.Label(self.interface, image=card3_image_resized).place(x=965, y=510)
+        self.image_keeper.append(card1_image_resized)
+        self.image_keeper.append(card2_image_resized)
+        self.image_keeper.append(card3_image_resized)
+    def show_turn_card(self):
+        #self.flop_card=flop_card
+        card1_path = "C:\\Users\\zijian\\Desktop\\poker_image\\PNG-cards-1.3\\" + self.turn_cards.name + ".png"
+        card1_image = Image.open(card1_path)
+        card1_image_resized = ImageTk.PhotoImage(card1_image.resize((70, 98)))
+        #start here
+        tk.Label(self.interface, image=card1_image_resized).place(x=1110, y=510)
+        self.image_keeper.append(card1_image_resized)
+    def show_river_card(self):
+        #self.flop_card=flop_card
+        card1_path = "C:\\Users\\zijian\\Desktop\\poker_image\\PNG-cards-1.3\\" + self.river_cards.name + ".png"
+        card1_image = Image.open(card1_path)
+        card1_image_resized = ImageTk.PhotoImage(card1_image.resize((70, 98)))
+        #start here
+        tk.Label(self.interface, image=card1_image_resized).place(x=1270, y=510)
+        self.image_keeper.append(card1_image_resized)
+    def check_button(self,text,row,column):
+        self.check_button1 = tk.Button(self.button_placer, text=text, command=self.check_action)  # action_trigger)
+        self.check_button1.place(row=row, column=column)
+    def fold_button(self,text,row,column):
+        self.fold_button1 = tk.Button(self.button_placer, text=text, command=self.fold_action)  # action_trigger)
+        self.fold_button1.place(row=row, column=column)
+    def raise_button(self,text,row,column):
+        self.raise_button1 = tk.Button(self.button_placer, text=text, command=self.raise_action)  # action_trigger)
+        self.raise_button1.place(row=row, column=column)
+    def check_action(self):
+        print("check")
+    def fold_action(self):
+        print("fold")
+    def raise_action(self):
+        print("raise")
     """
     def player_images_disp(self,number_of_player):
         self.clear_window()
