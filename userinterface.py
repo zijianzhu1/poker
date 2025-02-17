@@ -15,7 +15,7 @@ class Player_UI:
         self.river_cards=river_cards
         self.last_resize_time = time.time()
         Player_UI.image_reference(self)
-        self.resize_delay = 1
+        self.resize_delay = 0.5
 
         Player_UI.window(self, "Texas Hold'em")
 
@@ -37,22 +37,24 @@ class Player_UI:
         self.current_width = 2000
         self.current_height = 1000
         self.interface.geometry('2000x1000')
+
         self.interface.bind("<Configure>", self.on_resize)
 
     def on_resize(self,event):
         current_time = time.time()
+        if event.width < 200 or event.height < 200:
+            return
         if current_time - self.last_resize_time > self.resize_delay:
-            self.last_resize_time = current_time
-            self.current_width = event.width
-            self.current_height = event.height
-            print(f"Width: {self.current_width}, Height: {self.current_height}")
+            if event.width != self.current_width or event.height != self.current_height:
+                self.last_resize_time = current_time
+                self.current_width = event.width
+                self.current_height = event.height
+              #  print(f"Width: {self.current_width}, Height: {self.current_height}")
 
-            # Call the method to update widget positions or other actions
-            self.player_interface()
-        #self.current_width = event.width
-        #self.current_height = event.height
-        #self.player_interface()
-        #print(f"Width: {self.current_width}, Height: {self.current_height}")
+                # Call the method to update widget positions or other actions
+                self.player_interface()
+
+
     def label(self,word,row,column):
         self.LABEL=tk.Label(self.interface,text=word)
         self.LABEL.grid(row=row,column=column)
@@ -81,10 +83,10 @@ class Player_UI:
         Y_scale = [y * self.current_height/1000 for y in Y_cord]#Y_cord*self.current_height/1500
         self.player_image = ImageTk.PhotoImage(Player_UI.open_image(self).resize((100, 100)))
         self.image_keeper.append(self.player_image)
-        print(self.current_width)
-        print(self.current_height)
-        print(X_scale)
-        print(Y_scale)
+      #  print(self.current_width)
+      #  print(self.current_height)
+       # print(X_scale)
+      #  print(Y_scale)
         for i in range(9):
             a=tk.Label(self.interface, image=self.player_image)#.place(x=X_cord[i], y=Y_cord[i])
            # a.place(x=X_cord[i], y=Y_cord[i])
