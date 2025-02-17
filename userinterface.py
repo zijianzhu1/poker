@@ -15,18 +15,14 @@ class Player_UI:
         self.river_cards=river_cards
         self.last_resize_time = time.time()
         self.first_time_window = 0
+        self.stage = 0
+        self.pot_amount = 0
         self.button_refs = []  # Store all buttons
         Player_UI.image_reference(self)
         self.resize_delay = 0.5
 
         Player_UI.window(self, "Texas Hold'em")
-
-       # for i in range(10):
-            #Player_UI.label(self, "                   ", i, 0)
-        #Player_UI.label(self, "gait information", 0, 2)
         Player_UI.login_button(self,"login",0,0)
-        #self.players_card=players_card
-        #self.interface.bind("<Configure>", self.on_resize)
 
     def create_widgets(self):
         # Initial widget setup
@@ -56,6 +52,15 @@ class Player_UI:
                 # Call the method to update widget positions or other actions
                 self.player_interface()
                 self.show_player_cards()
+                if (self.stage == 1):
+                    self.show_flop_card()
+                if (self.stage == 2):
+                    self.show_flop_card()
+                    self.show_turn_card()
+                if (self.stage == 3):
+                    self.show_flop_card()
+                    self.show_turn_card()
+                    self.show_river_card()
 
 
     def label(self,word,row,column):
@@ -101,12 +106,13 @@ class Player_UI:
             a.place(x=X_scale[i], y=Y_scale[i])
 
         self.show_player_cards()
-        self.show_flop_card()
-        self.show_turn_card()
-        self.show_river_card()
+        #self.show_flop_card()
+        #self.show_turn_card()
+        #self.show_river_card()
         self.fold_button("fold",1550* self.current_width/2000,830* self.current_height/1000)
         self.check_button("check",1680* self.current_width/2000,830* self.current_height/1000)
         self.raise_button("raise",1810* self.current_width/2000,830* self.current_height/1000)
+        self.display_pot()
 
     def image_reference(self):
         self.image_dict={}
@@ -185,6 +191,23 @@ class Player_UI:
         #start here
         tk.Label(self.interface, image=card1_image_resized).place(x=1270 * self.current_width / 2000, y=510 * self.current_height / 1000)
         self.image_keeper.append(card1_image_resized)
+
+    def display_pot(self):
+        pot_x = self.current_width / 2 - 50  # Center horizontally
+        pot_y = self.current_height / 2 - 100  # Center above the flop cards
+
+        if hasattr(self, 'pot_label') and self.pot_label.winfo_exists():
+            self.pot_label.place(x=pot_x, y=pot_y)  # Update position
+            self.pot_label.config(text=f"Pot: ${self.pot_amount}")  # Update text
+        else:
+            self.pot_label = tk.Label(self.interface, text=f"Pot: ${self.pot_amount}",
+                                      font=("Arial", 14, "bold"), bg="green", fg="white")
+            self.pot_label.place(x=pot_x, y=pot_y)
+
+    def update_pot(self, amount):
+        """Update the pot value dynamically"""
+        self.pot_amount = amount
+        self.pot_label.config(text=f"Pot: ${self.pot_amount}")
     def check_button(self,text,row,column):
        # self.remove_old_buttons()
         blank_image = Image.new('RGBA', (120, 80), (255, 255, 255, 0))
@@ -210,6 +233,15 @@ class Player_UI:
        # self.remove_old_buttons()
         blank_image = Image.new('RGBA', (120, 80), (255, 255, 255, 0))
         button_image = ImageTk.PhotoImage(blank_image)
+
+        self.raise_amount = tk.IntVar(value=0)  # Default raise amount
+        self.slider = tk.Scale(self.interface, from_=1, to=500, orient="horizontal", variable=self.raise_amount)
+        self.slider.place(x=row - 50, y=column - 50, width=150)  # Adjust position as needed
+
+        # Label to display selected raise amount
+        #self.raise_label = tk.Label(self.interface, textvariable=self.raise_amount)
+        #self.raise_label.place(x=row + 50, y=column - 80)
+
         self.enterbutton = tk.Button(self.interface, text=text, image=button_image, compound="center",command=self.raise_action)
         self.enterbutton.place(x=row, y=column, width=120, height=80)
 
@@ -217,27 +249,35 @@ class Player_UI:
         self.image_keeper.append(button_image)
         #self.raise_button1 = tk.Button(self.interface, text=text, command=self.raise_action)  # action_trigger)
         #self.raise_button1.place(x=row, y=column)
+
+    def raise_action(self):
+        amount = self.raise_amount.get()
+        print(f"Raise: {amount}")
+
+
     def check_action(self):
         print("check")
+        self.stage+=1
+        self.show_stage_card()
     def fold_action(self):
+        self.stage += 1
+        self.show_stage_card()
         print("fold")
     def raise_action(self):
+        self.stage += 1
+        self.show_stage_card()
+        self.update_pot(self.raise_amount)
         print("raise")
-
+    def show_stage_card(self):
+        if (self.stage == 1):
+            self.show_flop_card()
+        if (self.stage == 2):
+            self.show_turn_card()
+        if (self.stage == 3):
+            self.show_river_card()
     def remove_old_buttons(self):
         for btn in self.button_refs:
             btn.place_forget()  # Remove button
         self.button_refs.clear()  # Clear the list
-
-
-    """
-    def player_images_disp(self,number_of_player):
-        self.clear_window()
-        X_cord=[470]
-        Y_cord=[400]
-        self.player_image = ImageTk.PhotoImage(Player_UI.open_image(self).resize((30, 30)))
-       # image_label = tk.Label(self.interface, image=self.player_image)
-       # image_label.place(x=470, y=400)
-    """
     def run(self):
         self.interface.mainloop()
