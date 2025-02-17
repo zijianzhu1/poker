@@ -14,6 +14,8 @@ class Player_UI:
         self.turn_cards=turn_cards
         self.river_cards=river_cards
         self.last_resize_time = time.time()
+        self.first_time_window = 0
+        self.button_refs = []  # Store all buttons
         Player_UI.image_reference(self)
         self.resize_delay = 0.5
 
@@ -69,14 +71,18 @@ class Player_UI:
     def clear_window(self):
         for i in self.interface.winfo_children():
             i.grid_forget()
-
         self.image_keeper.clear()
+        print(self.image_keeper)
     def open_image(self):
         original_image = Image.open("C:\\Users\\zijian\\Desktop\\poker_image\\player_image.png")
         return original_image
 
     def player_interface(self):
-        self.clear_window()
+        if (self.first_time_window==0):
+            self.first_time_window = 1
+        else:
+            print(self.image_keeper)
+            self.clear_window()
         X_cord = [950, 1370, 1650, 1500, 1250, 650, 400, 250, 530]
         Y_cord = [780, 780,  550,  260,  180,  180, 260, 550, 780]
         X_scale =  [x * self.current_width/2000 for x in X_cord]#X_cord*self.current_width/2000
@@ -96,9 +102,9 @@ class Player_UI:
         self.show_flop_card()
         self.show_turn_card()
         self.show_river_card()
-        self.fold_button("fold",1550,830)
-        self.check_button("check",1680,830)
-        self.raise_button("raise",1810,830)
+        self.fold_button("fold",1550* self.current_width/2000,830* self.current_height/1000)
+        self.check_button("check",1680* self.current_width/2000,830* self.current_height/1000)
+        self.raise_button("raise",1810* self.current_width/2000,830* self.current_height/1000)
 
     def image_reference(self):
         self.image_dict={}
@@ -172,26 +178,34 @@ class Player_UI:
         tk.Label(self.interface, image=card1_image_resized).place(x=1270, y=510)
         self.image_keeper.append(card1_image_resized)
     def check_button(self,text,row,column):
+       # self.remove_old_buttons()
         blank_image = Image.new('RGBA', (120, 80), (255, 255, 255, 0))
         button_image = ImageTk.PhotoImage(blank_image)
         self.enterbutton = tk.Button(self.interface, text=text, image=button_image, compound="center",command=self.check_action)
         self.enterbutton.place(x=row, y=column, width=120, height=80)
+
+        self.image_keeper.append(blank_image)
         self.image_keeper.append(button_image)
         #self.check_button1 = tk.Button(self.interface, text=text, command=self.check_action)  # action_trigger)
         #self.check_button1.place(x=row, y=column)
     def fold_button(self,text,row,column):
+        #self.remove_old_buttons()
         blank_image = Image.new('RGBA', (120, 80), (255, 255, 255, 0))
         button_image = ImageTk.PhotoImage(blank_image)
         self.enterbutton = tk.Button(self.interface, text=text, image=button_image, compound="center",command=self.fold_action)
         self.enterbutton.place(x=row, y=column, width=120, height=80)
+        self.image_keeper.append(blank_image)
         self.image_keeper.append(button_image)
         #self.fold_button1 = tk.Button(self.interface, text=text, command=self.fold_action)  # action_trigger)
         #self.fold_button1.place(x=row, y=column)
     def raise_button(self,text,row,column):
+       # self.remove_old_buttons()
         blank_image = Image.new('RGBA', (120, 80), (255, 255, 255, 0))
         button_image = ImageTk.PhotoImage(blank_image)
         self.enterbutton = tk.Button(self.interface, text=text, image=button_image, compound="center",command=self.raise_action)
         self.enterbutton.place(x=row, y=column, width=120, height=80)
+
+        self.image_keeper.append(blank_image)
         self.image_keeper.append(button_image)
         #self.raise_button1 = tk.Button(self.interface, text=text, command=self.raise_action)  # action_trigger)
         #self.raise_button1.place(x=row, y=column)
@@ -201,6 +215,11 @@ class Player_UI:
         print("fold")
     def raise_action(self):
         print("raise")
+
+    def remove_old_buttons(self):
+        for btn in self.button_refs:
+            btn.place_forget()  # Remove button
+        self.button_refs.clear()  # Clear the list
 
 
     """
