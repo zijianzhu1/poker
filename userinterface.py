@@ -2,14 +2,9 @@ import tkinter as tk
 import threading
 import socket
 from PIL import Image, ImageTk
+import time
 
 class Player_UI:
-    """initialize the first part
-    it will have two text entry on both interface for port and ip information
-    enter player2(server) informations first, then enter player1(server) to connect
-    e.g. port: 8000
-         ip address: 127.0.0.1
-    """
     def __init__(self, player_board, players_card,all_cards,flop_cards,turn_cards,river_cards):
         self.image_keeper=[]
         self.players_card = players_card
@@ -18,7 +13,10 @@ class Player_UI:
         self.flop_cards=flop_cards
         self.turn_cards=turn_cards
         self.river_cards=river_cards
+        self.last_resize_time = time.time()
         Player_UI.image_reference(self)
+        self.resize_delay = 1
+
         Player_UI.window(self, "Texas Hold'em")
 
        # for i in range(10):
@@ -36,36 +34,25 @@ class Player_UI:
         self.interface = tk.Tk()
        # self.interface=tk.Frame(self.root)
         self.interface.title(interface_name)
+        self.current_width = 2000
+        self.current_height = 1000
         self.interface.geometry('2000x1000')
-        #self.interface.bind("<Configure>", self.on_resize)
-      #  self.button_placer = tk.Frame(self.interface)
-      #  self.button_placer.grid(row=0, column=0, sticky='nsew')
-      #  self.interface.grid_rowconfigure(0, weight=1)
-      #  self.interface.grid_columnconfigure(0, weight=1)
-    """
-    def on_resize(self, event):
+        self.interface.bind("<Configure>", self.on_resize)
 
-        window_width = self.interface.winfo_width()
-        window_height = self.interface.winfo_height()
+    def on_resize(self,event):
+        current_time = time.time()
+        if current_time - self.last_resize_time > self.resize_delay:
+            self.last_resize_time = current_time
+            self.current_width = event.width
+            self.current_height = event.height
+            print(f"Width: {self.current_width}, Height: {self.current_height}")
 
-        # Resize the image proportionally
-        new_image = self.open_image().resize((int(window_width * 0.1), int(window_height * 0.1)))
-        self.tk_image = ImageTk.PhotoImage(new_image)
-
-        # Update the image label
-        self.image_label.config(image=self.tk_image)
-        self.image_label.image = self.tk_image  # Keep a reference to avoid garbage collection
-
-        # Recalculate positions based on relative percentages
-        image_x = int(window_width * self.relative_positions['image_1'][0])
-        image_y = int(window_height * self.relative_positions['image_1'][1])
-        self.image_label.place(x=image_x, y=image_y)
-
-        # Reposition the button similarly
-        button_x = int(window_width * self.relative_positions['button_1'][0])
-        button_y = int(window_height * self.relative_positions['button_1'][1])
-        self.enterbutton.place(x=button_x, y=button_y)
-    """
+            # Call the method to update widget positions or other actions
+            self.player_interface()
+        #self.current_width = event.width
+        #self.current_height = event.height
+        #self.player_interface()
+        #print(f"Width: {self.current_width}, Height: {self.current_height}")
     def label(self,word,row,column):
         self.LABEL=tk.Label(self.interface,text=word)
         self.LABEL.grid(row=row,column=column)
@@ -80,25 +67,28 @@ class Player_UI:
     def clear_window(self):
         for i in self.interface.winfo_children():
             i.grid_forget()
+
+        self.image_keeper.clear()
     def open_image(self):
         original_image = Image.open("C:\\Users\\zijian\\Desktop\\poker_image\\player_image.png")
         return original_image
 
     def player_interface(self):
         self.clear_window()
-        #self.button_placer = tk.Frame(self.interface)
-        #self.button_placer.grid(row=0, column=0, sticky='nsew')
-        #self.interface.grid_rowconfigure(0, weight=1)
-        #self.interface.grid_columnconfigure(0, weight=1)
         X_cord = [950, 1370, 1650, 1500, 1250, 650, 400, 250, 530]
         Y_cord = [780, 780,  550,  260,  180,  180, 260, 550, 780]
+        X_scale =  [x * self.current_width/2000 for x in X_cord]#X_cord*self.current_width/2000
+        Y_scale = [y * self.current_height/1000 for y in Y_cord]#Y_cord*self.current_height/1500
         self.player_image = ImageTk.PhotoImage(Player_UI.open_image(self).resize((100, 100)))
         self.image_keeper.append(self.player_image)
+        print(self.current_width)
+        print(self.current_height)
+        print(X_scale)
+        print(Y_scale)
         for i in range(9):
-            #image_label = tk.Label(self.interface, image=self.player_image)
-            #image_label.place(x=X_cord[i], y=Y_cord[i])
             a=tk.Label(self.interface, image=self.player_image)#.place(x=X_cord[i], y=Y_cord[i])
-            a.place(x=X_cord[i], y=Y_cord[i])
+           # a.place(x=X_cord[i], y=Y_cord[i])
+            a.place(x=X_scale[i], y=Y_scale[i])
 
         self.show_player_cards()
         self.show_flop_card()
@@ -107,24 +97,7 @@ class Player_UI:
         self.fold_button("fold",1550,830)
         self.check_button("check",1680,830)
         self.raise_button("raise",1810,830)
-        #self.fold_button("fold",1000,500)
-       # self.check_button("check",1100,500)
-       # self.raise_button("raise",1200,500)
-        """
-        card1_path = self.image_dict["player 1"][0]
-        card2_path = self.image_dict["player 1"][1]
-        print("here")
-        print(card1_path)
-        print(card2_path)
-        card1_image = Image.open(card1_path)
-       # card2_image = Image.open(card2_path)
-        card1_image_resized = ImageTk.PhotoImage(card1_image.resize((70, 98)))
-        #card2_image_resized = ImageTk.PhotoImage(card2_image.resize((20, 20)))
-        b=tk.Label(self.interface, image=card1_image_resized)#.place(x=340, y=390)
-        b.place(x=340, y=390)
-        self.image_keeper.append(card1_image_resized)
-        """
-       # self.image_keeper=image_keeper
+
     def image_reference(self):
         self.image_dict={}
         self.image_dict.update({"player_image":"C:\\Users\\zijian\\Desktop\\poker_image\\player_image.png"})
@@ -134,7 +107,6 @@ class Player_UI:
             card_path_name= i
             card1_path="C:\\Users\\zijian\\Desktop\\poker_image\\PNG-cards-1.3\\"+self.players_card[i][0].name+".png"
             card2_path="C:\\Users\\zijian\\Desktop\\poker_image\\PNG-cards-1.3\\"+self.players_card[i][1].name+".png"
-         #   print(self.players_card[i][0].name)
             self.image_dict.update({card_path_name:[card1_path,card2_path]})
 
     def show_player_cards(self):
@@ -150,11 +122,6 @@ class Player_UI:
          #  print([self.players_card[i][0].name,self.players_card[i][1].name])
             card1_path="C:\\Users\\zijian\\Desktop\\poker_image\\PNG-cards-1.3\\"+self.players_card[i][0].name+".png"
             card2_path="C:\\Users\\zijian\\Desktop\\poker_image\\PNG-cards-1.3\\"+self.players_card[i][1].name+".png"
-            #card1_path=self.image_dict["player 1"][0]
-           # card2_path = self.image_dict["player 1"][1]
-          #  print("here")
-         #   print(card1_path)
-         #   print(card2_path)
             card1_image=Image.open(card1_path)
             card2_image=Image.open(card2_path)
             card1_image_resized=ImageTk.PhotoImage(card1_image.resize((70, 98)))
