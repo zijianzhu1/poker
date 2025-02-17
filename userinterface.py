@@ -71,7 +71,8 @@ class Player_UI:
 
     def clear_window(self):
         for i in self.interface.winfo_children():
-            i.grid_forget()
+           # i.grid_forget()
+            i.destroy()
         self.image_keeper.clear()
         print(self.image_keeper)
     def open_image(self):
