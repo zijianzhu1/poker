@@ -55,6 +55,7 @@ class Player_UI:
 
                 # Call the method to update widget positions or other actions
                 self.player_interface()
+                self.show_player_cards()
 
 
     def label(self,word,row,column):
@@ -120,6 +121,8 @@ class Player_UI:
     def show_player_cards(self):
         X_cord = [915,1015,1335, 1435, 1465, 1565, 1465, 1565, 1215,1315,615,715,365,465,365,465,495,595]
         Y_cord = [672,672, 672, 672, 550, 550, 370, 370, 290,290,290,290,370,370,550,550,672,672]
+        X_scale = [x * self.current_width / 2000 for x in X_cord]  # X_cord*self.current_width/2000
+        Y_scale = [y * self.current_height / 1000 for y in Y_cord]  # Y_cord*self.current_height/1500
         keys = list(self.players_card.keys())
        # print("here")
        # print(self.image_dict)
@@ -134,8 +137,12 @@ class Player_UI:
             card2_image=Image.open(card2_path)
             card1_image_resized=ImageTk.PhotoImage(card1_image.resize((70, 98)))
             card2_image_resized=ImageTk.PhotoImage(card2_image.resize((70, 98)))
-            tk.Label(self.interface, image=card1_image_resized).place(x=X_cord[card_one_index], y=Y_cord[card_one_index])
-            tk.Label(self.interface, image=card2_image_resized).place(x=X_cord[card_two_index], y=Y_cord[card_two_index])
+            #tk.Label(self.interface, image=card1_image_resized).place(x=X_cord[card_one_index], y=Y_cord[card_one_index])
+          #  tk.Label(self.interface, image=card2_image_resized).place(x=X_cord[card_two_index], y=Y_cord[card_two_index])
+            tk.Label(self.interface, image=card1_image_resized).place(x=X_scale[card_one_index],
+                                                                      y=Y_scale[card_one_index])
+            tk.Label(self.interface, image=card2_image_resized).place(x=X_scale[card_two_index],
+                                                                      y=Y_scale[card_two_index])
             self.image_keeper.append(card1_image_resized)
             self.image_keeper.append(card2_image_resized)
             card_one_index+=2
@@ -155,9 +162,9 @@ class Player_UI:
         card2_image_resized = ImageTk.PhotoImage(card2_image.resize((70, 98)))
         card3_image_resized = ImageTk.PhotoImage(card3_image.resize((70, 98)))
         #start here
-        tk.Label(self.interface, image=card1_image_resized).place(x=680, y=510)
-        tk.Label(self.interface, image=card2_image_resized).place(x=820, y=510)
-        tk.Label(self.interface, image=card3_image_resized).place(x=965, y=510)
+        tk.Label(self.interface, image=card1_image_resized).place(x=680 * self.current_width / 2000, y=510 * self.current_height / 1000)
+        tk.Label(self.interface, image=card2_image_resized).place(x=820 * self.current_width / 2000, y=510 * self.current_height / 1000)
+        tk.Label(self.interface, image=card3_image_resized).place(x=965 * self.current_width / 2000, y=510 * self.current_height / 1000)
         self.image_keeper.append(card1_image_resized)
         self.image_keeper.append(card2_image_resized)
         self.image_keeper.append(card3_image_resized)
@@ -167,7 +174,7 @@ class Player_UI:
         card1_image = Image.open(card1_path)
         card1_image_resized = ImageTk.PhotoImage(card1_image.resize((70, 98)))
         #start here
-        tk.Label(self.interface, image=card1_image_resized).place(x=1110, y=510)
+        tk.Label(self.interface, image=card1_image_resized).place(x=1110 * self.current_width / 2000, y=510 * self.current_height / 1000)
         self.image_keeper.append(card1_image_resized)
     def show_river_card(self):
         #self.flop_card=flop_card
@@ -175,7 +182,7 @@ class Player_UI:
         card1_image = Image.open(card1_path)
         card1_image_resized = ImageTk.PhotoImage(card1_image.resize((70, 98)))
         #start here
-        tk.Label(self.interface, image=card1_image_resized).place(x=1270, y=510)
+        tk.Label(self.interface, image=card1_image_resized).place(x=1270 * self.current_width / 2000, y=510 * self.current_height / 1000)
         self.image_keeper.append(card1_image_resized)
     def check_button(self,text,row,column):
        # self.remove_old_buttons()
